@@ -10,25 +10,22 @@ class Title(models.Model):
 
 
 class Review(models.Model):
+    """Модель ревью работ"""
     text = models.TextField()
-    title = models.ForeignKey(
-        Title, on_delete=models.CASCADE, related_name="reviews")
-    author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="reviews")
+    title = models.CharField(max_length=100)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews")
     score = models.IntegerField()
     pub_date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        constraints = [models.UniqueConstraint(
-            fields=("title",), name="unique_title")]
+        constraints = [models.UniqueConstraint(fields=("title",), name="unique_title")]
 
     def __str__(self):
         return self.text
 
 
 class Comment(models.Model):
-    author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="comments")
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
     review = models.ForeignKey(
         Review, on_delete=models.CASCADE, related_name="comments"
     )
