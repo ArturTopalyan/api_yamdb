@@ -68,7 +68,6 @@ class Title(models.Model):
     def __str__(self):
         return self.name
 
-
 class Review(models.Model):
     text = models.TextField()
     title = models.ForeignKey(
@@ -87,10 +86,6 @@ class Review(models.Model):
                 fields=("title", "author"), name="unique_title_author"
             )
         ]
-
-    def __str__(self):
-        return self.text
-
 
 class Comment(models.Model):
     author = models.ForeignKey(

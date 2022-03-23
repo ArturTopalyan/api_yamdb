@@ -95,6 +95,7 @@ class CustomUserAPIView(views.APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+
 class AdminUserViewSet(ModelViewSet):
     queryset = CustomUser.object.all()
     serializer_class = CustomUserSerializer

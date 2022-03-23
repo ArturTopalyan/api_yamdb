@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from reviews.models import Comment, Review, Genre, Category, Title
-
+from rest_framework.generics import get_object_or_404
 
 class GenreSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,10 +47,18 @@ class ReviewSerializer(serializers.ModelSerializer):
         slug_field="username",
     )
 
+
+    def validate(self, data):
+        is_exist = Review.objects.filter(
+            author=self.context['request'].user,
+            title=self.context['view'].kwargs.get('title_id')).exists()
+        if is_exist and self.context['request'].method == 'POST':
+            raise serializers.ValidationError(
+                'Пользователь уже оставлял отзыв на это произведение')
+        return data
     class Meta:
         fields = ("id", "text", "author", "score", "pub_date")
         model = Review
-
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
@@ -59,5 +67,5 @@ class CommentSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        fileds = ("id", "text", "author", "pub_date")
+        fields = ("id", "text", "author", "pub_date")
         model = Comment

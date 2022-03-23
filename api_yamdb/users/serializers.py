@@ -15,13 +15,15 @@ class RegistrationUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ("username", "email")
+        fields = ('username', 'email',)
+
 
     def validate_me(self, value):
         if value == "me":
             raise serializers.ValidationError(
                 "Использовать 'me' в качестве username запрещено!!!"
             )
+        return value
 
 
 class LoginTokenSerializer(serializers.ModelSerializer):
@@ -53,3 +55,4 @@ class CustomUserSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Использовать 'me' в качестве username запрещено!!!"
             )
+        return value

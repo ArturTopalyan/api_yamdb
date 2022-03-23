@@ -9,12 +9,15 @@ class CustomUserManager(UserManager):
         if email is None:
             raise ValueError("Поле email обязательное!")
         return super().create_user(username, email, role, **extra_fields)
+        if username == "me":
+            raise ValueError("нельзя создать с таким именем!")
+        return super().create_user(
+            username, email=email, password=password, **extra_fields)
 
     def create_superuser(self, username, email, password, role="admin", **extra_fields):
         if password is None:
             raise TypeError("Поле password обязательное!")
         return super().create_superuser(username, email, password, role, **extra_fields)
-
 
 class CustomUser(AbstractUser):
 
@@ -24,11 +27,18 @@ class CustomUser(AbstractUser):
 
     ROLE = ((ADMIN, "admin"), (MODERATOR, "moderator"), (USER, "user"))
 
-    email = models.EmailField(unique=True, blank=False, null=False)
-    bio = models.TextField(blank=True, null=True)
-    role = models.CharField(choices=ROLE, max_length=50)
-
+    bio = models.TextField(blank=True)
+    role = models.CharField(max_length=200, choices=ROLE, default='user')
+    username = models.CharField(max_length=150, unique=True, db_index=True)
     object = CustomUserManager()
+
+    REQUIRED_FIELDS = ('email', 'password')
+
+    class Meta:
+        ordering = ('id',)
+        verbose_name = 'Пользователь'
+        verbose_name_plural = 'Пользователи'
+
 
     @property
     def is_user(self):
