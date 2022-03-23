@@ -46,7 +46,9 @@ class ReviewSerializer(serializers.ModelSerializer):
         read_only=True,
         slug_field="username",
     )
-
+    class Meta:
+        fields = ("id", "text", "author", "score", "pub_date")
+        model = Review
 
     def validate(self, data):
         is_exist = Review.objects.filter(
@@ -56,9 +58,6 @@ class ReviewSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'Пользователь уже оставлял отзыв на это произведение')
         return data
-    class Meta:
-        fields = ("id", "text", "author", "score", "pub_date")
-        model = Review
 
 class CommentSerializer(serializers.ModelSerializer):
     author = serializers.SlugRelatedField(
