@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework_simplejwt.tokens import RefreshToken
 
+
 from api.permissions import IsAdmin, IsAdminOrAuthorOrReadOnly
 from users.models import CustomUser
 from users.serializers import (
@@ -80,7 +81,7 @@ class LoginTokenAPIView(views.APIView):
 class CustomUserAPIView(views.APIView):
     serializer_class = CustomUserSerializer
     permission_classes = (IsAdminOrAuthorOrReadOnly,)
-
+    
     def get(self, request):
         user = get_object_or_404(CustomUser, username=request.user.username)
         serializer = CustomUserSerializer(user)

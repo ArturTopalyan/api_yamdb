@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from reviews.filters import TitleFilter
 from reviews.models import Category, Genre, Review, Title
 from api.permissions import IsAdminOrAuthorOrReadOnly, IsAdminOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
 
 from api.mixins import ListCreateDestroyViewSet
 from api.serializers import (
@@ -65,7 +66,7 @@ class TitleViewSet(viewsets.ModelViewSet):
         rating=Avg("reviews__score")).order_by("id")
     filterset_class = TitleFilter
     ordering_fields = ["name"]
-
+    filter_backends = [DjangoFilterBackend]
     # def perform_create(self, serializer):
     #     category = get_object_or_404(
     #         Category, slug=self.request.data.get('category')

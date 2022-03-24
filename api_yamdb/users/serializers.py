@@ -1,7 +1,7 @@
 from rest_framework import serializers, validators
 
 from users.models import CustomUser
-
+from api_yamdb.settings import RESERVED_NAME
 
 class RegistrationUserSerializer(serializers.ModelSerializer):
     username = serializers.CharField(
@@ -19,7 +19,7 @@ class RegistrationUserSerializer(serializers.ModelSerializer):
 
 
     def validate_me(self, value):
-        if value == "me":
+        if value == RESERVED_NAME:
             raise serializers.ValidationError(
                 "Использовать 'me' в качестве username запрещено!!!"
             )
@@ -51,7 +51,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
         model = CustomUser
 
     def validate_me(self, value):
-        if value == "me":
+        if value == RESERVED_NAME:
             raise serializers.ValidationError(
                 "Использовать 'me' в качестве username запрещено!!!"
             )
