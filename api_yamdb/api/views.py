@@ -67,6 +67,7 @@ class TitleViewSet(viewsets.ModelViewSet):
     filterset_class = TitleFilter
     ordering_fields = ["name"]
     filter_backends = [DjangoFilterBackend]
+    
     # def perform_create(self, serializer):
     #     category = get_object_or_404(
     #         Category, slug=self.request.data.get('category')
