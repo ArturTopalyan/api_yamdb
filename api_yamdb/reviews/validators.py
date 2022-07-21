@@ -1,9 +1,7 @@
-import datetime
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 
 def year_validator(value):
-    if value > datetime.datetime.now().year:
-        raise ValidationError(
-            f"{value}год - не может быть больше текущего года"
-        )
+    if value < 1000 or value > timezone.now().year:
+        raise ValidationError('bad year!')

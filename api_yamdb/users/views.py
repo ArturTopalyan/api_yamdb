@@ -19,6 +19,7 @@ from users.serializers import (
     AdminSerializer,
 )
 
+
 def send_mail_confirmation_code(user):
     """создаем код подтверждения и отправляем по email"""
     confirmation_code = default_token_generator.make_token(user)
