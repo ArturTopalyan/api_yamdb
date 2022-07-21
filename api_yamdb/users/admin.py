@@ -1,6 +1,6 @@
-from users.models import CustomUser
 from django.contrib.auth.admin import UserAdmin
 from django.contrib import admin
+from users.models import CustomUser
 
 
 @admin.register(CustomUser)
